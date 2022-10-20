@@ -12,7 +12,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip ZombieClip; // 좀비 죽음 효과음
     private AudioSource audio; // 오디오를 관리할 Inspector창의 audiosource
 
-    // Start is called before the first frame update
     void Start() // 초기화
     {
         instance = this;
@@ -29,12 +28,12 @@ public class AudioManager : MonoBehaviour
         audio.PlayOneShot(vilageClip);
     }
 
-    public void Gun_Sound()
+    public void Gun_Sound() // 총알 발사 효과음
     {
         audio.PlayOneShot(gunClip);
     }
 
-    public void Zombie_Die()
+    public void Zombie_Die() // 좀비의 죽음 효과음
     {
         audio.PlayOneShot(ZombieClip);
     }

@@ -10,16 +10,15 @@ public class QuestObject : MonoBehaviour
     public List<int> availableQuestIDs = new List<int>();
     public List<int> receivableQuestIDs = new List<int>();
 
-    public GameObject questMarker; 
+    public GameObject questMarker; // UI 이미지를 자식으로 갖고 있는 GameObject입니다. SetActive를 활용하여 활성, 비활성화를 구현합니다.
     public Image theImage; // ! 또는 ? 이미지
 
-    public Sprite questAvailableSprite;
-    public Sprite questReceivableSprite;
+    public Sprite questAvailableSprite;  // UI Image에 대입할 Sprite 이미지입니다.
+    public Sprite questReceivableSprite; // UI Image에 대입할 Sprtie 이미지입니다.
 
-    public BoxCollider boxCollider;
-    [SerializeField] private int questIndex;
+    public BoxCollider boxCollider;      // Trigger Event의 충돌에 적용되는 boxCollider입니다. 반복적인 입력에 의한 오류를 방지하기 위하여 사용하였습니다.
+    [SerializeField] private int questIndex; // Main Quest의 순서와 questIndex가 같아야 퀘스트가 진행해주기 위하여 추가하였습니다.
 
-    // Start is called before the first frame update
     void Start()
     {
         SetQuestMaker();
@@ -74,8 +73,7 @@ public class QuestObject : MonoBehaviour
                 QuestManager.questManager.QuestNum++;
                 boxCollider.enabled = false; // 선형 퀘스트 구조 + 일회성 퀘스트를 위하여 1번만 말을 걸도록 만듦. 비효율적이지만 작업 날짜를 맞추기 위한 차선의 방법 채택. 향후 개선 가능
             }
-            QuestManager.questManager.QuestRequest(this);
-            QuestUIManager.uiManager.CheckQuests(this);
+            QuestManager.questManager.QuestRequest(this); // 싱글톤으로 구현한 QuestManager의 QuestRequest를 호출.
         }
     }
 

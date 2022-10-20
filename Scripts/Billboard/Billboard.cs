@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    // UI Sprite 이미지가 Camera의 정면을 바라보게 보는 스크립트
+    /*
+    퀘스트 NPC의 상태 ENUM 값 AVAILABLE,ACCEPTED, COMPLETED에 따라 구현한 2D sprite UI Image가
+    플레이어의 위치에 따라 다르게 보이는 문제점이 발생하였습니다.
+    이를 해결하기 위한 방법으로 UI Canvas가 속해 있는 gameObject들을 Player Cam의 정면을 바라보도록 하는 billboard 기법을 채용하였습니다. 
+    */
+
+    // 바라 보는 방향의 세부 transform을 Vector3로 받아와서 변경해주기 위하여 선언하였습니다.
     Vector3 cameraDir;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         cameraDir = Camera.main.transform.forward; // 화면에 비추는 카메라의 정면 Vector3값을 받아온다.

@@ -13,7 +13,8 @@ public class QuestManager : MonoBehaviour
     public int QuestNum; // 엔딩을 체크하기 위한 현재 퀘스트 번호 
     public int EndNum; //  도달 시 엔딩에 달성하는 퀘스트 번호
     public bool isQuest; // 현재 퀘스트 진행중인지 체크하는 불값
-    public Text questTxt;
+
+    public Text questTxt; // UI의 대화 창에 Quest 상태를 출력하기 위한 Text 변수입니다.
 
     private void Awake()
     {
@@ -25,7 +26,6 @@ public class QuestManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // DontDestroyOnLoad(gameObject);
     }
 
 
@@ -39,11 +39,13 @@ public class QuestManager : MonoBehaviour
 
     }
 
+    // 퀘스트 내용을 화면 UI에 출력합니다.
     public void QuestDescription()
     {
        questTxt.text = "퀘스트: " + questsList[0].decription;
     }
 
+    // 퀘스트 수락하고 퀘스트와 연계된 Bool과 List의 data를 결정해주는 메서드입니다.
     public void QuestRequest(QuestObject NPCQuestObject)
     {
         // 받을 수 있는 퀘스트
@@ -79,9 +81,10 @@ public class QuestManager : MonoBehaviour
                     Debug.Log("Quest ID: " + NPCQuestObject.receivableQuestIDs[j] + "is" + currentQuestList[i].progress);
 
                     CompleteQuest(NPCQuestObject.receivableQuestIDs[j]);
-                    // quest ui manager
-                    QuestUIManager.uiManager.questRunning = true;
-                    QuestUIManager.uiManager.activeQuest.Add(questsList[i]);
+                    // quest ui manager와 연계하는 기능입니다. 
+                    // 현재 제작한 게임에서는 사용하지 않았습니다.
+                    // QuestUIManager.uiManager.questRunning = true;
+                    // QuestUIManager.uiManager.activeQuest.Add(questsList[i]);
                 }
             }
         }
@@ -105,13 +108,15 @@ public class QuestManager : MonoBehaviour
     }
 
     // GIVE UP QUEST
-    // 포기시 curQuest 삭제
     public void GiveUpQuest(int questID)
     {
         for (int i = 0; i < currentQuestList.Count; i++)
         {
             if(currentQuestList[i].id == questID && currentQuestList[i].progress == Quest.QuestProgress.ACCEPTED)
             {
+                // 현재 QuestList으l progress(ENUM)가 수락 상태에서 가능한 상태로 되돌린다.
+                // Quest 아이템 획득 Count를 0으로 초기화 해준다.
+                // List에서 제거해준다.
                 currentQuestList[i].progress = Quest.QuestProgress.AVAILABLE;
                 currentQuestList[i].questObjectiveCount = 0;
                 currentQuestList.Remove(currentQuestList[i]);
@@ -131,16 +136,17 @@ public class QuestManager : MonoBehaviour
                 currentQuestList[i].progress = Quest.QuestProgress.DONE;
                 currentQuestList.Remove(currentQuestList[i]);
 
-                //REWARD(보상 메서드)
+                // REWARD(보상 메서드)
+                // 보상 부분은 업데이트 해야합니다.
             }
         }
-        //check for chain quests
+        // 연계된 퀘스트가 있을 시 해당 퀘스트로 넘어갑니다.
         CheckChainQuest(questID);
     }
 
     // Check Chain Quest
 
-    void CheckChainQuest(int questID) // 연계 퀘스트의 번호를 다음 번호로 변경
+    void CheckChainQuest(int questID) // questID를 매개변수로 연계 퀘스트의 진행을 관리하였습니다.
     {
         int tempID = 0;
         for (int i = 0; i < questsList.Count; i++)
@@ -169,11 +175,12 @@ public class QuestManager : MonoBehaviour
     {
         for (int i = 0; i < currentQuestList.Count; i++)
         {
+            // Amount의 값만큼 quest에 필요한 목표 값을 증가시킵니다.
             if (currentQuestList[i].questObjective == questObjective && currentQuestList[i].progress == Quest.QuestProgress.ACCEPTED)
             {
                 currentQuestList[i].questObjectiveCount += itemAmount;  
             }
-
+            // 획득 Count가 목표치 보다 크거나 같다면 퀘스트가 완료됩니다.
             if (currentQuestList[i].questObjectiveCount >= currentQuestList[i].questobjectiveRequirement 
                 && currentQuestList[i].progress == Quest.QuestProgress.ACCEPTED)
             {
@@ -182,9 +189,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // REMOVE ITEMS
-
-    // BOOLS
+    // BOOLS : 현재 Quest의 Progress를 확인 시켜주는 메서드입니다. 메서드의 이름과 Progress과 일치하다면 해당 Bool값을 True로 아니면 false를 반환합니다.
 
     public bool RequestAvailableQuest(int questID)
     {

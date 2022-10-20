@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/*
+ *  게임 Play에 공통되는 사항을 관리하는 Manager 함수를 싱글톤으로 구성하였습니다.
+ *  SetActive를 활용하여 UI의 부모 GameObject의 출력 / 숨김 기능을 구현하였습니다.
+ *  FPS의 슈팅 기능에 마우스 UI Point를 숨김 / 표시 기능을 구현하였습니다.
+ *  Npc 대화 Item 획득 Hooking Inventory등의 상태변수를 GameManager로 관리하였습니다.
+ *  Application Quit으로 게임종료 기능을 구현하였습니다.
+ */
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance; // 싱글톤 구현
@@ -26,10 +34,10 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!isInvetory)
+        // 인벤토리 기능이 아닐 경우에는 마우스 커서를 사라지게 합니다.
+        if (!isInvetory) 
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -38,6 +46,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
+        // 게임 Ending시에 숨길 GameObject들을 배열과 foreach문을 활용하여 숨기고 EndObj를 활성화합니다.
         if (isEnding)
         {
             foreach(GameObject e in PlayObj)
@@ -49,6 +58,7 @@ public class GameManager : MonoBehaviour
             endEffect.SetActive(true);
         }
 
+        // GamePlay의 조작 커맨드를 UI를 통하여 설명해주는 대사를 출력하게 만들었습니다.
         if (isQuestItem)
         {
             questObj.SetActive(true);

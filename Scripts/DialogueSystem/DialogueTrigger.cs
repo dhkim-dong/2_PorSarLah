@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    public static DialogueTrigger instance; // 싱글톤 활용
+    /*
+     * 싱글톤 활용. 대화 시스템을 사용하는 것을 용이하게 하기 위해서 싱글톤으로 관리하였습니다.
+     * Hierarchy에서 DialogueTrigger를 상속받은 빈 GameObject에서 대화 데이터를 관리합니다.
+     * */
 
-    public Dialogue[] info; // Dialogue 클래스의 데이터값을 직접 입력하여 대사내용 구현
+    public static DialogueTrigger instance; 
+ 
+    public Dialogue[] info; // Dialogue의 Data를 Inspector에서 추가할 수 있습니다.(System.Serializable)로 설정하였으므로
 
     private void Start() // static 값을 초기화
     {
