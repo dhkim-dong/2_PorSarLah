@@ -2,7 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=wave&color=auto&height=300&section=header&text=PorSarLah&fontSize=90" />
 
-> PorSarLah는 Unity 2022.3.11f1버전으로 작업한 팀 프로젝트입니다.
+> PorSarLah는 Unity 2021.3.11f1버전으로 작업한 팀 프로젝트입니다.
 <br/> **프로젝트 기간** : 2022년 9월 23일 ~ 2022년 10월 17일
 <br/> **개발 인원**    : 3명
 <br/> **게임 장르**    : 슈팅, ADV
